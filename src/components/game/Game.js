@@ -6,6 +6,7 @@ import Player from "../../views/Player";
 import { Spinner } from "../../views/design/Spinner";
 import { Button } from "../../views/design/Button";
 import { withRouter } from "react-router-dom";
+import Link from "react-router-dom/es/Link";
 
 const Container = styled(BaseContainer)`
   color: white;
@@ -77,6 +78,16 @@ class Game extends React.Component {
                 );
               })}
             </Users>
+            <Link to="/Profile-edit">
+
+                <Button
+                    width="100%"
+                    component={ Link } to="/about" variant="contained"
+                >
+                  Edit my Profile
+                </Button>
+            </Link>
+            <p></p>
             <Button
               width="100%"
               onClick={() => {

@@ -5,6 +5,7 @@ import { getDomain } from "../../helpers/getDomain";
 import User from "../shared/models/User";
 import { withRouter } from "react-router-dom";
 import { Button } from "../../views/design/Button";
+import Link from "react-router-dom/es/Link";
 
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -83,6 +84,8 @@ class Login extends React.Component {
    * HTTP POST request is sent to the backend.
    * If the request is successful, a new user is returned to the front-end and its token is stored in the localStorage.
    */
+
+  //TODO; change to PostMapping /login
   login() {
     fetch(`${getDomain()}/users`, {
       method: "POST",
@@ -91,7 +94,7 @@ class Login extends React.Component {
       },
       body: JSON.stringify({
         username: this.state.username,
-        name: this.state.name
+        name: this.state.password
       })
     })
       .then(response => response.json())
@@ -143,16 +146,16 @@ class Login extends React.Component {
                 this.handleInputChange("username", e.target.value);
               }}
             />
-            <Label>Name</Label>
+            <Label>Password</Label>
             <InputField
               placeholder="Enter here.."
               onChange={e => {
-                this.handleInputChange("name", e.target.value);
+                this.handleInputChange("password", e.target.value);
               }}
             />
             <ButtonContainer>
               <Button
-                disabled={!this.state.username || !this.state.name}
+                disabled={!this.state.username || !this.state.password}
                 width="50%"
                 onClick={() => {
                   this.login();
@@ -161,6 +164,16 @@ class Login extends React.Component {
                 Login
               </Button>
             </ButtonContainer>
+            <Link to="/register">
+            <ButtonContainer>
+
+              <Button
+                  width="50%"
+              >
+                Register
+              </Button>
+            </ButtonContainer>
+            </Link>
           </Form>
         </FormContainer>
       </BaseContainer>
