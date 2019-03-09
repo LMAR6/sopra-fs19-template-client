@@ -80,31 +80,38 @@ class Login extends React.Component {
       username: null
     };
   }
+
   /**
-   * HTTP POST request is sent to the backend.
-   * If the request is successful, a new user is returned to the front-end and its token is stored in the localStorage.
+   * HTTP POST request to backend with credentials
+   * Expected answer: credentials accepted or denied
    */
 
-  //TODO; change to PostMapping /login
-  login() {
-    fetch(`${getDomain()}/users`, {
+  login = () => {
+    //changed from users to login according to mapping in backend
+    fetch(`${getDomain()}/login`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username: this.state.username,
-        name: this.state.password
+        password: this.state.password
       })
     })
-      .then(response => response.json())
-      .then(returnedUser => {
-        const user = new User(returnedUser);
-        // store the token into the local storage
-        localStorage.setItem("token", user.token);
-        // user login successfully worked --> navigate to the route /game in the GameRouter
-        this.props.history.push(`/game`);
+
+      .then(response => {
+        if (response.status === 200) {
+          var dbuser = response.json();
+          const loginuser = new User (dbuser);
+          localStorage.setItem("token", loginuser.token);
+          alert("You are logged-in.");
+          this.props.history.push('game/dashboard');
+        } else {
+          alert("Login failed.")
+        }
+
       })
+
       .catch(err => {
         if (err.message.match(/Failed to fetch/)) {
           alert("The server cannot be reached. Did you start it?");

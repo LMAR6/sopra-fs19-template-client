@@ -74,7 +74,7 @@ class Profile extends React.Component {
     render() {
         const {match} = this.props
         const id = match.params.id
-        console.log(this.id);
+        //console.log(this.id);
         return (
             <Container>
                 <h2>Profile page of user {id}</h2>

@@ -91,7 +91,7 @@ class Register extends React.Component {
             },
             body: JSON.stringify({
                 username: this.state.username,
-                name: this.state.name
+                password: this.state.password
             })
         })
             .then(response => response.json())
@@ -143,13 +143,6 @@ class Register extends React.Component {
                                 this.handleInputChange("username", e.target.value);
                             }}
                         />
-                        <Label>Name</Label>
-                        <InputField
-                            placeholder="Enter here.."
-                            onChange={e => {
-                                this.handleInputChange("name", e.target.value);
-                            }}
-                        />
                         <Label>Password</Label>
                         <InputField
                             placeholder="Enter here.."
@@ -159,7 +152,7 @@ class Register extends React.Component {
                         />
                         <ButtonContainer>
                             <Button
-                                disabled={!this.state.username || !this.state.name}
+                                disabled={!this.state.username || !this.state.password}
                                 width="50%"
                                 onClick={() => {
                                     this.register();
