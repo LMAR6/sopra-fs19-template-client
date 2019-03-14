@@ -71,6 +71,17 @@ class Login extends React.Component {
    * The constructor for a React component is called before it is mounted (rendered).
    * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
    * These fields are then handled in the onChange() methods in the resp. InputFields
+   *
+   * Reminder:
+   * Do not update state directly
+   * // Wrong
+   * this.state.comment = 'Hello';
+   *
+   * // Correct
+   * this.setState({comment: 'Hello'});
+   *
+   * this.state can only be assigned in constructor.
+   *
    */
   constructor(props) {
     super(props);
