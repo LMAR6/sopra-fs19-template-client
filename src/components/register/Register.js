@@ -97,7 +97,7 @@ class Register extends React.Component {
             })
         })
             .then(response =>{
-            if(response.status === 409) {
+            if(response.status === 409) {resource
                 alert("This Username is already taken. Try another one.");
             }
             else{
