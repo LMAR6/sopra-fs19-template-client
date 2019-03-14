@@ -46,7 +46,7 @@ class AppRouter extends React.Component {
               <Route path="/profile/:id" exact component={Profile}/>
               </GameGuard>
               <GameGuard>
-              <Route path="/profile/settings" component={Settings}/>
+              <Route path="/profile/settings" exact component={Settings}/>
               </GameGuard>
             <Route path="/" exact render={() => <Redirect to={"/game"} />} />
           </div>

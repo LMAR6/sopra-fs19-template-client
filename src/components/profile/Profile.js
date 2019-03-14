@@ -67,12 +67,13 @@ class Profile extends React.Component {
     }
 
     render() {
-        const {match} = this.props
-        const id = match.params.id
+        //get id from url/app router
+        const {match} = this.props;
+        const id = match.params.id;
         //console.log(this.id);
         return (
             <Container>
-                <h2>Profile page of user {id}</h2>
+                <h2>Profile User {id}</h2>
                 <p></p>
                 {!this.state.users ? (
                     <Spinner />
