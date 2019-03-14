@@ -97,7 +97,7 @@ class Register extends React.Component {
             })
         })
             .then(response =>{
-            if(response.status === 409) {resource
+            if(response.status === 409) {
                 alert("This Username is already taken. Try another one.");
             }
             else{
@@ -106,11 +106,11 @@ class Register extends React.Component {
             }
         })
             .catch(err => {
-                //if (err.message.match(/Failed to fetch/)) {
-                //    alert("The server cannot be reached. Did you start it?");
-                //} else {
+                if (err.message.match(/Failed to fetch/)) {
+                    alert("The server cannot be reached. Did you start it?");
+                } else {
                     alert(`Something went wrong during the registration: ${err.message}`);
-                //}
+                }
             });
     }
 
