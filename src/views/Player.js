@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "react-router-dom/es/Link";
+import { Button } from "../views/design/Button";
 
 const Container = styled.div`
   margin: 6px 0;
@@ -41,7 +42,7 @@ const Player = ({ user }) => {
     <Container>
         <Name>{user.name}</Name><UserName>{user.username}</UserName>
         <Id>Id: {user.id}</Id>
-        <Link to={'/profile/'+ user.id}><p>Show profile</p></Link>
+        <Link to={'/profile/'+ user.id}><Button>Show profile</Button></Link>
     </Container>
   );
 };

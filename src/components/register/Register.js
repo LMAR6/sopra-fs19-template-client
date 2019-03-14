@@ -94,19 +94,20 @@ class Register extends React.Component {
                 password: this.state.password
             })
         })
-            .then(response => response.json())
-            .then(returnedUser => {
-                const user = new User(returnedUser);
-                // store the token into the local storage
-                localStorage.setItem("token", user.token);
-                // user login successfully worked --> navigate to the route /game in the GameRouter
-                this.props.history.push(`/game`);
-            })
+            .then(response =>{
+            if(response.status === 409) {
+                alert("This Username is already taken. Try another one.");
+            }
+            else{
+                alert("Your account has been created");
+                this.props.history.push('login');
+            }
+        })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {
                     alert("The server cannot be reached. Did you start it?");
                 } else {
-                    alert(`Something went wrong during the login: ${err.message}`);
+                    alert(`Something went wrong during the registration: ${err.message}`);
                 }
             });
     }

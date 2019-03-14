@@ -59,7 +59,7 @@ const PlayerProfile = ({ user }) => {
         <Container>
             <Name>{user.name}</Name><UserName>{user.username}</UserName>
             <Status>Status: {user.status}</Status>
-            <Creationdate>Creation date:{user.creationdate}</Creationdate>
+            <Creationdate>Creation date: {user.creationdate}</Creationdate>
             <Birthday>Birthday: {user.birthday}</Birthday>
         </Container>
     );

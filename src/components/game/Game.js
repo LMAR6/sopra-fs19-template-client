@@ -26,8 +26,8 @@ const PlayerContainer = styled.li`
 `;
 
 class Game extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       users: null
     };
@@ -51,7 +51,6 @@ class Game extends React.Component {
         // This is just a fake async call, so that the spinner can be displayed
         // feel free to remove it :)
         await new Promise(resolve => setTimeout(resolve, 800));
-
         this.setState({ users });
       })
       .catch(err => {
@@ -78,18 +77,17 @@ class Game extends React.Component {
                 );
               })}
             </Users>
-            <Link to="/Profile-edit">
-
+            <Link to="/profile/Settings">
                 <Button
-                    width="100%"
-                    component={ Link } to="/about" variant="contained"
+                    width="50%"
+                    component={ Link } to="../profile/Settings.js" variant="contained"
                 >
                   Edit my Profile
                 </Button>
             </Link>
             <p></p>
             <Button
-              width="100%"
+              width="50%"
               onClick={() => {
                 this.logout();
               }}

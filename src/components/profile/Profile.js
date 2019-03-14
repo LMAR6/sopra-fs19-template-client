@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { BaseContainer } from "../../helpers/layout";
 import { getDomain } from "../../helpers/getDomain";
-import Player from "../../views/Player";
 import { Spinner } from "../../views/design/Spinner";
 import { Button } from "../../views/design/Button";
 import { withRouter } from "react-router-dom";
@@ -26,30 +25,26 @@ const PlayerContainer = styled.li`
   justify-content: center;
 `;
 
-/**
-class profilhelper extends Profile {
-    render() {
-        const {match} = this.props
-        const id = match.params.id
-        console.log(this.id);
-    }
-}**/
-
-
 class Profile extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            users: null
+            user : null,
         };
+        //debugging
+        console.log(this.props);
+        console.log(props.userid);
     }
 
     logout() {
+        //remove token and id from localstorage when logging out
         localStorage.removeItem("token");
+        localStorage.removeItem("id");
         this.props.history.push("/login");
     }
 
     componentDidMount() {
+        //get all users for listing
         fetch(`${getDomain()}/users`, {
             method: "GET",
             headers: {
@@ -85,6 +80,8 @@ class Profile extends React.Component {
                     <div>
                         <Users>
                             {this.state.users.map(user => {
+                                //cheap trick to only return user with appropriate id, not very efficient
+                                //made new design PlayerProfile for this
                                 if(user.id==id)
                                     return (
                                         <PlayerContainer key={id}>
@@ -116,5 +113,4 @@ class Profile extends React.Component {
         );
     }
 }
-
 export default withRouter(Profile);

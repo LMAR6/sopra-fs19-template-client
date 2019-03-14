@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { BaseContainer } from "../../helpers/layout";
 import { getDomain } from "../../helpers/getDomain";
-import User from "../shared/models/User";
 import { withRouter } from "react-router-dom";
 import { Button } from "../../views/design/Button";
 import Link from "react-router-dom/es/Link";
@@ -73,53 +72,72 @@ class Login extends React.Component {
    * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
    * These fields are then handled in the onChange() methods in the resp. InputFields
    */
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      name: null,
-      username: null
+      username: null,
+      password: null,
+      user: null,
+      history:this.props.history,
     };
   }
 
-  /**
-   * HTTP POST request to backend with credentials
-   * Expected answer: credentials accepted or denied
-   */
+    /**
+     * HTTP POST request to backend with credentials
+     * Expected answer: credentials accepted or denied
+     * STATUS 200 => accepted
+     * STATUS !=200 => denied
+     */
 
-  login = () => {
-    //changed from users to login according to mapping in backend
-    fetch(`${getDomain()}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
-      })
-    })
-
-      .then(response => {
-        if (response.status === 200) {
-          var dbuser = response.json();
-          const loginuser = new User (dbuser);
-          localStorage.setItem("token", loginuser.token);
-          alert("You are logged-in.");
-          this.props.history.push('game/dashboard');
-        } else {
-          alert("Login failed.")
-        }
-
-      })
-
-      .catch(err => {
-        if (err.message.match(/Failed to fetch/)) {
-          alert("The server cannot be reached. Did you start it?");
-        } else {
-          alert(`Something went wrong during the login: ${err.message}`);
-        }
-      });
-  }
+    login = () => {
+        //use json() method to extract JSON body from response
+        //if status 404, no matching user and password found
+        const status = response =>{
+            //if status 200 promise response
+            if(response.status === 200){
+                //Syntax reminder: Promise.resolve(value);
+                //value: Argument to be resolved by this Promise, can also be a thenable
+                return Promise.resolve(response);
+            }
+            alert("Login failed. Please check your inputs.");
+            //Syntax reminder: Promise.reject(reason);
+            return Promise.reject("Not receiving status 200");
+        };
+        const apistr = response => response.json();
+        //changed from users to login according to mapping in backend
+        fetch(`${getDomain()}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password
+            })
+        })
+            //syntax reminder then(function) {}
+            .then(status)
+            .then(apistr)
+            .then(response =>{
+                // debugging
+                console.log('Data received', response);
+                // set user to data
+                this.setState({user: response});
+                // debugging
+                console.log('Found user ', this.state.user);
+                // set token and id in local storage (why is session storage not working?)
+                localStorage.setItem("token", response.token);
+                localStorage.setItem("userId", response.id);
+                //alert user
+                alert("You are logged-in.");
+                //push to game
+                this.props.history.push('game');
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
   /**
    *  Every time the user enters something in the input field, the state gets updated.
@@ -173,7 +191,6 @@ class Login extends React.Component {
             </ButtonContainer>
             <Link to="/register">
             <ButtonContainer>
-
               <Button
                   width="50%"
               >
@@ -187,7 +204,6 @@ class Login extends React.Component {
     );
   }
 }
-
 /**
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
