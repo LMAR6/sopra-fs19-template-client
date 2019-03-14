@@ -72,11 +72,12 @@ class Register extends React.Component {
      * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
      * These fields are then handled in the onChange() methods in the resp. InputFields
      */
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            name: null,
-            username: null
+            username: null,
+            password: null
+
         };
     }
     /**
@@ -105,11 +106,11 @@ class Register extends React.Component {
             }
         })
             .catch(err => {
-                if (err.message.match(/Failed to fetch/)) {
-                    alert("The server cannot be reached. Did you start it?");
-                } else {
+                //if (err.message.match(/Failed to fetch/)) {
+                //    alert("The server cannot be reached. Did you start it?");
+                //} else {
                     alert(`Something went wrong during the registration: ${err.message}`);
-                }
+                //}
             });
     }
 
