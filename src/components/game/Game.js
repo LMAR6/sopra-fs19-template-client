@@ -33,12 +33,33 @@ class Game extends React.Component {
     };
   }
 
-  logout() {
-    //token removed
-    localStorage.removeItem("token");
-    //status state update missing...
-    this.props.history.push("/login");
-  }
+logout = () => {
+
+  fetch(`${getDomain()}/users/` + localStorage.getItem("userId"), {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "token": localStorage.getItem("token")
+
+    },
+    body: JSON.stringify({
+      id: localStorage.getItem("userId"),
+      status: "OFFLINE"
+    })
+  })
+
+      .then(data =>{
+            localStorage.removeItem("token");
+            alert("You are logged out.");
+            this.props.history.push("/login");
+          }
+      )
+
+      .catch(error => {
+        console.log(error);
+      });
+};
 
   componentDidMount() {
     fetch(`${getDomain()}/users`, {

@@ -36,12 +36,34 @@ class Profile extends React.Component {
         console.log(props.userid);
     }
 
-    logout() {
-        //remove token and id from localstorage when logging out
-        localStorage.removeItem("token");
-        localStorage.removeItem("id");
-        this.props.history.push("/login");
-    }
+    logout = () => {
+
+        fetch(`${getDomain()}/users/` + localStorage.getItem("userId"), {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "token": localStorage.getItem("token")
+
+            },
+            //change status to OFFLINE
+            body: JSON.stringify({
+                id: localStorage.getItem("userId"),
+                status: "OFFLINE"
+            })
+        })
+            //remove token from local storage
+            .then(data =>{
+                    localStorage.removeItem("token");
+                    alert("You are logged out.");
+                    this.props.history.push("/login");
+                }
+            )
+
+            .catch(error => {
+                console.log(error);
+            });
+    };
 
     componentDidMount() {
         //get all users for listing
