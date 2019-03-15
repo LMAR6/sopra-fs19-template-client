@@ -122,7 +122,7 @@ class Settings extends React.Component {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "token": localStorage.getItem("token")
             }
         })
             .then(status)
@@ -156,7 +156,7 @@ class Settings extends React.Component {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "token": localStorage.getItem("token")
             },
             body: JSON.stringify({
                 token: localStorage.getItem("token"),

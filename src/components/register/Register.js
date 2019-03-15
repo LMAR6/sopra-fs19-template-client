@@ -101,6 +101,7 @@ class Register extends React.Component {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
+                //does not need any token for auth
             },
             body: JSON.stringify({
                 username: this.state.username,
